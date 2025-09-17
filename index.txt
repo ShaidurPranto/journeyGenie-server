@@ -1,0 +1,39 @@
+service registry:
+
+user/api gateway:
+	userRepository+entity
+
+	tokenService
+	userService
+	
+	oneTimeInitializer
+
+tour:
+	tourRepository+entity
+	
+	blogService
+	tourService
+	videoService
+
+day:
+	dayRepository+entity
+	
+	dayService
+
+photo:
+	photoRepostiory+entity
+	
+	imageAnalysisService
+	photoService
+
+activity:
+	activityRepository+entity
+	
+	activityService
+
+landmarkDetection:
+	landmarkInferenceService
+	landmarkMapping
+
+payment:
+	paymentService
