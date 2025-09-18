@@ -1,6 +1,10 @@
+
+
 service registry:
 
-user/api gateway:
+api gateway:
+
+auth-user:
 	userRepository+entity
 
 	tokenService
@@ -37,3 +41,14 @@ landmarkDetection:
 
 payment:
 	paymentService
+	
+	
+	
+	
+	
+	
+	
+	
+.....api changed.............
+1. imageAnalysisController
+	/api -> /api/image
