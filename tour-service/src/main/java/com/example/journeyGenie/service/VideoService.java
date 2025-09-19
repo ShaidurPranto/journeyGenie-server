@@ -2,7 +2,7 @@ package com.example.journeyGenie.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.example.journeyGenie.authJWT.JWTService;
+import com.example.journeyGenie.auth.JWTService;
 import com.example.journeyGenie.dto.PhotoResponseDTO;
 import com.example.journeyGenie.dto.TourResponseDTO;
 import com.example.journeyGenie.dto.UserResponseDTO;
@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -25,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Service

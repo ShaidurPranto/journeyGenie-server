@@ -1,15 +1,9 @@
 package com.example.journeyGenie.service;
 
-import com.example.journeyGenie.authJWT.JWTService;
+import com.example.journeyGenie.auth.JWTService;
 import com.example.journeyGenie.dto.*;
-import com.example.journeyGenie.entity.Activity;
-import com.example.journeyGenie.entity.Day;
-import com.example.journeyGenie.entity.Tour;
-import com.example.journeyGenie.entity.User;
 import com.example.journeyGenie.feign.UserInterface;
-import com.example.journeyGenie.repository.ActivityRepository;
 import com.example.journeyGenie.repository.TourRepository;
-import com.example.journeyGenie.repository.UserRepository;
 import com.example.journeyGenie.util.AppEnv;
 import com.example.journeyGenie.util.Debug;
 import com.fasterxml.jackson.databind.JsonNode;

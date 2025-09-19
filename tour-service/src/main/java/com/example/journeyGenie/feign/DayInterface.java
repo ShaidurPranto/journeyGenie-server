@@ -15,9 +15,9 @@ public interface DayInterface {
     @GetMapping("/day/{dayId}")
     DayResponseDTO getDayById(@PathVariable("dayId") Long dayId);
 
-    @GetMapping("/days/{tourId}")
+    @GetMapping("/day/tour/{tourId}")
     List<DayResponseDTO> getDaysOfTour(@PathVariable("tourId") Long tourId);
 
-    @PostMapping("/day")
+    @PostMapping("/day/create")
     void createDay(@RequestBody DayResponseDTO day);
 }

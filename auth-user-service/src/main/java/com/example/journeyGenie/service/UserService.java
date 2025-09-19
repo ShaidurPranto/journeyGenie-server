@@ -1,0 +1,152 @@
+package com.example.journeyGenie.service;
+
+import com.example.journeyGenie.authJWT.JWTService;
+import com.example.journeyGenie.dto.UserResponseDTO;
+import com.example.journeyGenie.entity.User;
+import com.example.journeyGenie.feign.TourInterface;
+import com.example.journeyGenie.repository.UserRepository;
+import com.example.journeyGenie.util.AppEnv;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
+
+
+@Service
+public class UserService {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTService jwtService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TourInterface tourInterface;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(7);
+
+
+    public ResponseEntity<?> createUser(User user) {
+        System.out.println("inside the user service , create user");
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        User existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            System.out.println("User with this email already exists");
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("User with this email already exists");
+        } else {
+            userRepository.save(user);
+            System.out.println("User created successfully");
+            return ResponseEntity.ok(user);
+        }
+    }
+
+    public ResponseEntity<?> loginUser(@RequestBody User user, HttpServletResponse response) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+
+        if (authentication.isAuthenticated()) {
+            String token = jwtService.generateToken(user.getEmail());
+
+            Cookie cookie = new Cookie("jwt", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(60* AppEnv.getTokenValidityMinutes());
+            cookie.setAttribute("SameSite","None"); // set true in production , Set SameSite attribute to None
+            response.addCookie(cookie);
+
+            // find user from database
+            User existingUser = userRepository.findByEmail(user.getEmail());
+            return ResponseEntity.ok(getUserResponseById(existingUser.getId()));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+        }
+    }
+
+    public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        String email = jwtService.getEmailFromRequest(request);
+        if (email != null) {
+            Cookie cookie = new Cookie("jwt", "jwt-token-invalidated");
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+            cookie.setAttribute("SameSite","None");
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok().header("Set-Cookie", cookie.toString()).body("User logged out successfully 2");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+    }
+
+    public ResponseEntity<?> getUserName(HttpServletRequest request) {
+        String email = jwtService.getEmailFromRequest(request);
+        if (email != null) {
+            User user = userRepository.findByEmail(email);
+            if (user != null) {
+                return ResponseEntity.ok(Map.of("name", user.getName()));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+    }
+
+    public ResponseEntity<?> getUser(HttpServletRequest request) {
+        String email = jwtService.getEmailFromRequest(request);
+        if (email != null) {
+            User user = userRepository.findByEmail(email);
+            if (user != null) {
+                return ResponseEntity.ok(getUserResponseById(user.getId()));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+    }
+
+    // the endpoints are for internal communications between microservices using feign
+
+    public UserResponseDTO getUserResponseById(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            UserResponseDTO userResponseDTO = new UserResponseDTO();
+            userResponseDTO.setId(user.getId());
+            userResponseDTO.setName(user.getName());
+            userResponseDTO.setEmail(user.getEmail());
+            userResponseDTO.setToken(user.getToken());
+            userResponseDTO.setTours(tourInterface.getToursOfUser(userId));
+            return userResponseDTO;
+        } else {
+            return null;
+        }
+    }
+
+    public UserResponseDTO getUserResponseByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return getUserResponseById(user.getId());
+        } else {
+            return null;
+        }
+    }
+}

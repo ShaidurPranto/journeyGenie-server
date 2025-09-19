@@ -1,12 +1,11 @@
 // File: src/main/java/com/example/journeyGenie/controller/PlanController.java
 package com.example.journeyGenie.controller;
 
-import com.example.journeyGenie.authJWT.JWTService;
+import com.example.journeyGenie.auth.JWTService;
 import com.example.journeyGenie.dto.ActivityResponseDTO;
 import com.example.journeyGenie.dto.DayResponseDTO;
 import com.example.journeyGenie.dto.TourResponseDTO;
 import com.example.journeyGenie.dto.UserResponseDTO;
-import com.example.journeyGenie.entity.*;
 import com.example.journeyGenie.feign.UserInterface;
 import com.example.journeyGenie.service.TourService;
 import com.example.journeyGenie.util.AppEnv;
@@ -19,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.journeyGenie.service.TokenService;
 
 
 import java.io.IOException;

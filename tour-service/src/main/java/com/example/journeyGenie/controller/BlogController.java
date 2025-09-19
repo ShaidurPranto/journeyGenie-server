@@ -1,16 +1,13 @@
 package com.example.journeyGenie.controller;
 
-import com.example.journeyGenie.authJWT.JWTService;
+import com.example.journeyGenie.auth.JWTService;
 import com.example.journeyGenie.dto.UserResponseDTO;
 import com.example.journeyGenie.feign.UserInterface;
 import com.example.journeyGenie.service.BlogService;
-import com.example.journeyGenie.service.TokenService; // Import TokenService for checking user tokens
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/blog")

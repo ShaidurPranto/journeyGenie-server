@@ -4,36 +4,45 @@ service registry:
 
 api gateway:
 
-auth-user:
-	userRepository+entity
+auth-user-service:
+	user repository + entity
 
-	tokenService
-	userService
+	token controller
+	user controller
 	
-	oneTimeInitializer
+	token service
+	user service
 
-tour:
-	tourRepository+entity
+tour-service:
+	tour repository + entity
 	
-	blogService
-	tourService
-	videoService
+	blog controller
+	plan controller
+	route controller
+	tour controller
+	video controller
+	weather controller
+	
+	blog service
+	tour service
+	video service
 
 day:
 	dayRepository+entity
 	
 	dayService
 
+activity:
+	activityRepository+entity
+	
+	activityService
+	
 photo:
 	photoRepostiory+entity
 	
 	imageAnalysisService
 	photoService
 
-activity:
-	activityRepository+entity
-	
-	activityService
 
 landmarkDetection:
 	landmarkInferenceService

@@ -1,15 +1,12 @@
 package com.example.journeyGenie.service;
 
-import com.example.journeyGenie.authJWT.JWTService;
+import com.example.journeyGenie.auth.JWTService;
 import com.example.journeyGenie.dto.*;
 import com.example.journeyGenie.entity.Tour;
-import com.example.journeyGenie.entity.User;
 import com.example.journeyGenie.feign.DayInterface;
 import com.example.journeyGenie.feign.UserInterface;
 import com.example.journeyGenie.repository.TourRepository;
-import com.example.journeyGenie.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +68,8 @@ public class TourService {
         return ResponseEntity.ok(existingUser);
     }
 
+    // the endpoints are for internal communications between microservices using feign
+
     public TourResponseDTO getTourResponseFromId(Long tourId){
         Tour tour = tourRepository.findById(tourId)
                 .orElseThrow(() -> new RuntimeException("Tour not found with id: " + tourId));
@@ -110,4 +109,30 @@ public class TourService {
             dayInterface.createDay(day);
         }
     }
+
+    public List<TourResponseDTO> getToursOfUser(Long userId) {
+        List<Tour> tours = tourRepository.findByUserId(userId);
+        return tours.stream().map(tour -> {
+            TourResponseDTO tourResponseDTO = new TourResponseDTO();
+            tourResponseDTO.setId(tour.getId());
+            UserResponseDTO user = userInterface.getUserById(tour.getUserId());
+            tourResponseDTO.setUser(user);
+            tourResponseDTO.setTitle(tour.getTitle());
+            tourResponseDTO.setStartDate(tour.getStartDate());
+            tourResponseDTO.setEndDate(tour.getEndDate());
+            tourResponseDTO.setStartLocation(tour.getStartLocation());
+            tourResponseDTO.setDestination(tour.getDestination());
+            tourResponseDTO.setBudget(tour.getBudget());
+            tourResponseDTO.setVideo(tour.getVideo());
+            tourResponseDTO.setBlog(tour.getBlog());
+            List<DayResponseDTO> days = dayInterface.getDaysOfTour(tour.getId());
+            tourResponseDTO.setDays(days);
+            return tourResponseDTO;
+        }).toList();
+    }
+
+    public TourResponseDTO getTourById(Long tourId) {
+        return getTourResponseFromId(tourId);
+    }
 }
+

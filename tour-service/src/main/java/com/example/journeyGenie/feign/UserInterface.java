@@ -10,33 +10,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("USER-SERVICE")
 public interface UserInterface {
 
-    @GetMapping("/user/id")
+    @GetMapping("/user/openfeign/id")
     UserResponseDTO getUserById(@RequestParam("userId") Long userId);
 
-    @GetMapping("/user/email")
+    @GetMapping("/user/openfeign/email")
     UserResponseDTO getUserByEmail(@RequestParam("email") String email);
 
-    @PostMapping("/user/deductTokens")
+    @PostMapping("/token/openfeign/deductTokens")
     ResponseEntity<?> deductTokens(
             @RequestParam("userId") Long userId,
             @RequestParam("tokensToDeduct") int tokensToDeduct
     );
 
-    @GetMapping("/user/tokenCosts/video")
-    int getVideoGenerationTokenCost();
-
-    @GetMapping("/user/tokenCosts/tourPerDay")
-    int getTourGenerationTokenCostPerDay();
-
-    @GetMapping("/user/tokenCosts/photoUpload")
-    int getPhotoUploadCost();
-
-    @GetMapping("/user/tokenCosts/blog")
-    int getBlogGenerationTokenCost();
-
-    @PostMapping("/user/addTokens")
+    @PostMapping("/token/openfeign/addTokens")
     ResponseEntity<?> addTokens(
             @RequestParam("userId") Long userId,
             @RequestParam("tokensToAdd") int tokensToAdd
     );
+
+    @GetMapping("/token/openfeign/tokenCosts/video")
+    int getVideoGenerationTokenCost();
+
+    @GetMapping("/token/openfeign/tokenCosts/tourPerDay")
+    int getTourGenerationTokenCostPerDay();
+
+    @GetMapping("/token/openfeign/tokenCosts/photoUpload")
+    int getPhotoUploadCost();
+
+    @GetMapping("/token/openfeign/tokenCosts/blog")
+    int getBlogGenerationTokenCost();
 }
