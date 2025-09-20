@@ -12,12 +12,12 @@ import java.util.List;
 @FeignClient("DAY-SERVICE")
 public interface DayInterface {
 
-    @GetMapping("/day/{dayId}")
+    @GetMapping("/day/openfeign/{dayId}")
     DayResponseDTO getDayById(@PathVariable("dayId") Long dayId);
 
-    @GetMapping("/day/tour/{tourId}")
+    @GetMapping("/day/openfeign/tour/{tourId}")
     List<DayResponseDTO> getDaysOfTour(@PathVariable("tourId") Long tourId);
 
-    @PostMapping("/day/create")
+    @PostMapping("/day/openfeign/create")
     void createDay(@RequestBody DayResponseDTO day);
 }

@@ -7,7 +7,6 @@ import com.example.journeyGenie.feign.ActivityInterface;
 import com.example.journeyGenie.feign.PhotoInterface;
 import com.example.journeyGenie.feign.TourInterface;
 import com.example.journeyGenie.repository.DayRepository;
-import com.example.journeyGenie.repository.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

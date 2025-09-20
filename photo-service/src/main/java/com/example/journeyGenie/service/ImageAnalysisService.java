@@ -1,6 +1,6 @@
 package com.example.journeyGenie.service;
 
-import com.example.journeyGenie.authJWT.JWTService;
+import com.example.journeyGenie.auth.JWTService;
 import com.example.journeyGenie.dto.*;
 import com.example.journeyGenie.feign.UserInterface;
 import com.example.journeyGenie.util.AppEnv;

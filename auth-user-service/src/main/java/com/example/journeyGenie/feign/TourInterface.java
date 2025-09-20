@@ -10,9 +10,9 @@ import java.util.List;
 @FeignClient("TOUR-SERVICE")
 public interface TourInterface {
 
-    @GetMapping("/tours/user/{userId}")
+    @GetMapping("/tour/openfeign/user/{userId}")
     List<TourResponseDTO> getToursOfUser(@PathVariable("userId") Long userId);
 
-    @GetMapping("/tour/{tourId}")
+    @GetMapping("/tour/openfeign/{tourId}")
     TourResponseDTO getTourById(@PathVariable("tourId") Long tourId);
 }

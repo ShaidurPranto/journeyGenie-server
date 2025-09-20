@@ -28,15 +28,15 @@ public class GatewayConfig {
                         "/day/**"
                         )
                         .uri("lb://day-service"))
+                .route("activity-service", r -> r.path(
+                                "/activity/**"
+                        )
+                        .uri("lb://activity-service"))
                 .route("photo-service", r -> r.path(
                                 "/photo/**",
                                 "/api/image/**"
                         )
                         .uri("lb://photo-service"))
-                .route("activity-service", r -> r.path(
-                                "/activity/**"
-                        )
-                        .uri("lb://activity-service"))
                 .route("landmark-detection-service", r -> r.path(
                                 "/api/landmark/**"
                         )
