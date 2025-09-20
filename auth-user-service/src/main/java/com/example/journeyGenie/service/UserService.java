@@ -6,6 +6,7 @@ import com.example.journeyGenie.entity.User;
 import com.example.journeyGenie.feign.TourInterface;
 import com.example.journeyGenie.repository.UserRepository;
 import com.example.journeyGenie.util.AppEnv;
+import com.example.journeyGenie.util.Debug;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -57,6 +58,7 @@ public class UserService {
     }
 
     public ResponseEntity<?> loginUser(@RequestBody User user, HttpServletResponse response) {
+        Debug.log("inside the user service , login user");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
@@ -72,7 +74,10 @@ public class UserService {
             response.addCookie(cookie);
 
             // find user from database
+            Debug.log("trying to find user from database");
             User existingUser = userRepository.findByEmail(user.getEmail());
+            Debug.log("user found from database: " + existingUser);
+
             return ResponseEntity.ok(getUserResponseById(existingUser.getId()));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");

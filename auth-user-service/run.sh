@@ -7,7 +7,7 @@ export TOKEN_VALIDITY_MINUTES=60
 # token refresh can be set to true or false
 export TOKEN_REFRESH_ENABLED=false
 export OAUTH_REDIRECT_PAGE='/'
-export BACKEND_URL=http://localhost:8080
+export BACKEND_URL=http://localhost:8081
 export FRONTEND_URL=http://localhost:5173
 export GEMINI_API_KEY="AIzaSyC2ksUK_5jghVWduRYmMzum3Y0v9H_6gC0"
 export CLOUD_NAME='dg1sx19ve'
