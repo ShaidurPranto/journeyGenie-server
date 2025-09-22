@@ -1,8 +1,7 @@
 package com.example.journeyGenie.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,8 +14,7 @@ public class PhotoResponseDTO {
 
     private String link;
 
-    @JsonBackReference
-    private DayResponseDTO day;
+    private Long dayId;
 
     private String aiDescription;
 

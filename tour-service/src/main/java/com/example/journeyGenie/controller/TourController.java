@@ -31,6 +31,7 @@ public class TourController {
 
     @GetMapping("/openfeign/user/{userId}")
     List<TourResponseDTO> getToursOfUser(@PathVariable("userId") Long userId){
+        Debug.log("[FEIGN] TOUR-SERVICE: getting tours of a user");
         return tourService.getToursOfUser(userId);
     }
 

@@ -42,6 +42,12 @@ public class UserController {
         return userService.logoutUser(request,response);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> getUser(HttpServletRequest request,HttpServletResponse response) {
+        Debug.log("Get user info request");
+        return userService.getUser(request);
+    }
+
 
 
     // the endpoints are for internal communications between microservices using feign

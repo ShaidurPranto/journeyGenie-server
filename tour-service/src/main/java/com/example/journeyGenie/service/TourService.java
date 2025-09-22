@@ -75,8 +75,7 @@ public class TourService {
                 .orElseThrow(() -> new RuntimeException("Tour not found with id: " + tourId));
         TourResponseDTO tourResponseDTO = new TourResponseDTO();
         tourResponseDTO.setId(tour.getId());
-        UserResponseDTO user = userInterface.getUserById(tour.getUserId());
-        tourResponseDTO.setUser(user);
+        tourResponseDTO.setUserId(tour.getUserId());
         tourResponseDTO.setTitle(tour.getTitle());
         tourResponseDTO.setStartDate(tour.getStartDate());
         tourResponseDTO.setEndDate(tour.getEndDate());
@@ -93,7 +92,7 @@ public class TourService {
     public void saveTour(TourResponseDTO tour) {
         // save tour in database
         Tour newTour = new Tour();
-        newTour.setUserId(tour.getUser().getId());
+        newTour.setUserId(tour.getUserId());
         newTour.setTitle(tour.getTitle());
         newTour.setStartDate(tour.getStartDate());
         newTour.setEndDate(tour.getEndDate());
@@ -105,7 +104,7 @@ public class TourService {
         Tour savedTour = tourRepository.save(newTour);
         // save days of the tours using day interface
         for (DayResponseDTO day : tour.getDays()) {
-            day.setTour(tour);
+            day.setTourId(tour.getId());
             dayInterface.createDay(day);
         }
     }
@@ -115,8 +114,7 @@ public class TourService {
         return tours.stream().map(tour -> {
             TourResponseDTO tourResponseDTO = new TourResponseDTO();
             tourResponseDTO.setId(tour.getId());
-            UserResponseDTO user = userInterface.getUserById(tour.getUserId());
-            tourResponseDTO.setUser(user);
+            tourResponseDTO.setUserId(userId);
             tourResponseDTO.setTitle(tour.getTitle());
             tourResponseDTO.setStartDate(tour.getStartDate());
             tourResponseDTO.setEndDate(tour.getEndDate());

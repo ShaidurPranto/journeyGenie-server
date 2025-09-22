@@ -174,7 +174,7 @@ public class PlanController {
             tour.setStartDate((String) planRequest.get("startDate"));
             tour.setEndDate((String) planRequest.get("endDate"));
             tour.setBudget((String) planRequest.get("budget"));
-            tour.setUser(userResponseDTO); // bound in service
+            tour.setUserId(userResponseDTO.getId()); // bound in service
 
             List<DayResponseDTO> days = new ArrayList<>();
             if (daysObj instanceof List<?> daysList) {
@@ -184,7 +184,7 @@ public class PlanController {
 
                     DayResponseDTO day = new DayResponseDTO();
                     day.setDate((String) dayMap.get("date"));
-                    day.setTour(tour);
+                    day.setTourId(tour.getId());
 
                     // Collect real activities from Gemini
                     List<ActivityResponseDTO> activities = new ArrayList<>();
@@ -197,7 +197,7 @@ public class PlanController {
                             ActivityResponseDTO activity = new ActivityResponseDTO();
                             String description = buildActivityDescriptionWithBdt(activityMap);
                             activity.setDescription(description);
-                            activity.setDay(day);
+                            activity.setDayId(day.getId());
                             activities.add(activity);
                         }
                     }
@@ -215,7 +215,7 @@ public class PlanController {
                             sb.append(" - Cost: ").append("৳0");
                         }
                         a.setDescription(sb.toString());
-                        a.setDay(day);
+                        a.setDayId(day.getId());
                         activities.add(0, a);
                     }
 
@@ -231,7 +231,7 @@ public class PlanController {
                             sb.append(" - Cost: ").append("৳0");
                         }
                         a.setDescription(sb.toString());
-                        a.setDay(day);
+                        a.setDayId(day.getId());
                         int insertAt = !activities.isEmpty() && activities.get(0).getDescription().startsWith("Transport:")
                                 ? 1 : 0;
                         activities.add(insertAt, a);

@@ -78,7 +78,8 @@ public class UserService {
             User existingUser = userRepository.findByEmail(user.getEmail());
             Debug.log("user found from database: " + existingUser);
 
-            return ResponseEntity.ok(getUserResponseById(existingUser.getId()));
+            // return ResponseEntity.ok(getUserResponseById(existingUser.getId()));
+            return ResponseEntity.ok("Login successful");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
@@ -116,6 +117,7 @@ public class UserService {
     }
 
     public ResponseEntity<?> getUser(HttpServletRequest request) {
+        Debug.log("inside the user service , get user");
         String email = jwtService.getEmailFromRequest(request);
         if (email != null) {
             User user = userRepository.findByEmail(email);
@@ -132,6 +134,7 @@ public class UserService {
     // the endpoints are for internal communications between microservices using feign
 
     public UserResponseDTO getUserResponseById(Long userId) {
+        Debug.log("inside the user service , get user by id: " + userId);
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             UserResponseDTO userResponseDTO = new UserResponseDTO();
@@ -139,6 +142,7 @@ public class UserService {
             userResponseDTO.setName(user.getName());
             userResponseDTO.setEmail(user.getEmail());
             userResponseDTO.setToken(user.getToken());
+            Debug.log("Fetching tours from tourInterface using openFeign for user id: " + userId);
             userResponseDTO.setTours(tourInterface.getToursOfUser(userId));
             return userResponseDTO;
         } else {

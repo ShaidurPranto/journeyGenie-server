@@ -57,7 +57,14 @@ payment:
 	
 	
 	
-	
-.....api changed.............
+-----------------------changes made to existing project---------------------
+1. after the request /user/api the user doesnot get the user object now in response , rather 
+   user needs to make /user/me request to get the user object
+
+
+.....apis changed.....
 1. imageAnalysisController
 	/api -> /api/image
+	
+	
+

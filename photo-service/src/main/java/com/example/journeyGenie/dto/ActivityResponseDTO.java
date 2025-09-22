@@ -1,7 +1,5 @@
 package com.example.journeyGenie.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -17,6 +15,5 @@ public class ActivityResponseDTO {
 
     private String status;
 
-    @JsonBackReference
-    private DayResponseDTO day;
+    private Long dayId;
 }

@@ -1,8 +1,5 @@
 package com.example.journeyGenie.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -15,8 +12,7 @@ import java.util.List;
 public class TourResponseDTO {
     private Long id;
 
-    @JsonBackReference
-    private UserResponseDTO user;
+    private Long userId;
 
     private String title;
 
@@ -34,6 +30,5 @@ public class TourResponseDTO {
 
     private String blog;
 
-    @JsonManagedReference
     private List<DayResponseDTO> days;
 }

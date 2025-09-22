@@ -1,5 +1,6 @@
 package com.example.journeyGenie.auth;
 
+import com.example.journeyGenie.util.Debug;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -26,6 +27,9 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        Debug.log("[DEBUG] ----------------- JWT Filter -----------------");
+        Debug.log("JWT filter invoked for request: " + request.getRequestURI());
+
         String token = null;
 
         // 1. Extract from cookies
@@ -33,6 +37,7 @@ public class JWTFilter extends OncePerRequestFilter {
             for (Cookie cookie : request.getCookies()) {
                 if ("jwt".equals(cookie.getName())) {
                     token = cookie.getValue();
+                    Debug.log("JWT token found in cookies: " + token);
                     break;
                 }
             }

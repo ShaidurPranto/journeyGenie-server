@@ -34,8 +34,7 @@ public class DayService {
         }
         DayResponseDTO dayResponseDTO = new DayResponseDTO();
         dayResponseDTO.setId(day.getId());
-        TourResponseDTO tourResponseDTO = tourInterface.getTourById(day.getTourId());
-        dayResponseDTO.setTour(tourResponseDTO);
+        dayResponseDTO.setTourId(day.getTourId());
         dayResponseDTO.setDate(day.getDate());
         dayResponseDTO.setActivities(activityInterface.getActivitiesOfDay(day.getId()));
         dayResponseDTO.setPhotos(photoInterface.getPhotosOfDay(day.getId()));
@@ -43,23 +42,21 @@ public class DayService {
     }
 
     public List<DayResponseDTO> getDaysOfTour(Long tourId) {
-        List<DayResponseDTO> days = dayRepository.findByTourId(tourId).stream().map(day -> {
+        return dayRepository.findByTourId(tourId).stream().map(day -> {
             DayResponseDTO dayResponseDTO = new DayResponseDTO();
             dayResponseDTO.setId(day.getId());
-            TourResponseDTO tourResponseDTO = tourInterface.getTourById(day.getTourId());
-            dayResponseDTO.setTour(tourResponseDTO);
+            dayResponseDTO.setTourId(day.getTourId());
             dayResponseDTO.setDate(day.getDate());
             dayResponseDTO.setActivities(activityInterface.getActivitiesOfDay(day.getId()));
             dayResponseDTO.setPhotos(photoInterface.getPhotosOfDay(day.getId()));
             return dayResponseDTO;
         }).toList();
-        return days;
     }
 
     public void createDayFromResponse(DayResponseDTO day) {
         Day newDay = new Day();
         newDay.setId(day.getId());
-        newDay.setTourId(day.getTour().getId());
+        newDay.setTourId(day.getTourId());
         newDay.setDate(day.getDate());
         dayRepository.save(newDay);
         if (day.getActivities() != null) {

@@ -177,8 +177,7 @@ public class PhotoService {
         PhotoResponseDTO photoResponseDTO = new PhotoResponseDTO();
         photoResponseDTO.setId(photo.getId());
         photoResponseDTO.setLink(photo.getLink());
-        DayResponseDTO dayResponseDTO = dayInterface.getDayById(photo.getDayId());
-        photoResponseDTO.setDay(dayResponseDTO);
+        photoResponseDTO.setDayId(photo.getDayId());
         photoResponseDTO.setAiDescription(photo.getAiDescription());
         photoResponseDTO.setAnalyzedAt(photo.getAnalyzedAt());
         photoResponseDTO.setAnalysisTags(photo.getAnalysisTags());
@@ -191,8 +190,7 @@ public class PhotoService {
             PhotoResponseDTO dto = new PhotoResponseDTO();
             dto.setId(photo.getId());
             dto.setLink(photo.getLink());
-            DayResponseDTO dayResponseDTO = dayInterface.getDayById(photo.getDayId());
-            dto.setDay(dayResponseDTO);
+            dto.setDayId(photo.getDayId());
             dto.setAiDescription(photo.getAiDescription());
             dto.setAnalyzedAt(photo.getAnalyzedAt());
             dto.setAnalysisTags(photo.getAnalysisTags());
@@ -203,8 +201,8 @@ public class PhotoService {
     public void createPhoto(PhotoResponseDTO photo) {
         Photo newPhoto = new Photo();
         newPhoto.setLink(photo.getLink());
-        if (photo.getDay() != null) {
-            newPhoto.setDayId(photo.getDay().getId());
+        if (photo.getDayId() != null) {
+            newPhoto.setDayId(photo.getDayId());
         }
         newPhoto.setAiDescription(photo.getAiDescription());
         newPhoto.setAnalyzedAt(photo.getAnalyzedAt());

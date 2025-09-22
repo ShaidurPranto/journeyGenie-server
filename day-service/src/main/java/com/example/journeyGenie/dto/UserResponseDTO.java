@@ -1,9 +1,6 @@
 package com.example.journeyGenie.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -23,7 +20,6 @@ public class UserResponseDTO {
 
     private Integer token;
 
-    @JsonManagedReference
     private List<TourResponseDTO> tours;
 }
 

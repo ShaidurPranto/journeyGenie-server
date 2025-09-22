@@ -79,8 +79,7 @@ public class ActivityService {
         dto.setId(activity.getId());
         dto.setDescription(activity.getDescription());
         dto.setStatus(activity.getStatus());
-        DayResponseDTO day = dayInterface.getDayById(activity.getDayId());
-        dto.setDay(day);
+        dto.setDayId(activity.getDayId());
         return dto;
     }
 
@@ -91,8 +90,7 @@ public class ActivityService {
             dto.setId(activity.getId());
             dto.setDescription(activity.getDescription());
             dto.setStatus(activity.getStatus());
-            DayResponseDTO day = dayInterface.getDayById(activity.getDayId());
-            dto.setDay(day);
+            dto.setDayId(activity.getDayId());
             return dto;
         }).toList();
     }
@@ -101,8 +99,8 @@ public class ActivityService {
         Activity newActivity = new Activity();
         newActivity.setDescription(activity.getDescription());
         newActivity.setStatus(activity.getStatus());
-        if (activity.getDay() != null) {
-            newActivity.setDayId(activity.getDay().getId());
+        if (activity.getDayId() != null) {
+            newActivity.setDayId(activity.getDayId());
         }
         activityRepository.save(newActivity);
     }

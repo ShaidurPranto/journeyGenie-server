@@ -58,30 +58,30 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-
-        // Use mutable list instead
-        List<String> allowedOrigins = new java.util.ArrayList<>();
-        allowedOrigins.add("http://localhost:3000");
-        allowedOrigins.add("http://localhost:5173");
-
-        // add AppEnv.getFrontendUrl() if it's not null
-        String envUrl = AppEnv.getFrontendUrl();
-        if (envUrl != null) {
-            allowedOrigins.add(envUrl);
-        }
-
-        config.setAllowedOrigins(allowedOrigins);
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*", "Content-Type", "Authorization"));
-        config.setAllowCredentials(true);
-        config.setExposedHeaders(List.of("Set-Cookie"));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration config = new CorsConfiguration();
+//
+//        // Use mutable list instead
+//        List<String> allowedOrigins = new java.util.ArrayList<>();
+//        allowedOrigins.add("http://localhost:3000");
+//        allowedOrigins.add("http://localhost:5173");
+//
+//        // add AppEnv.getFrontendUrl() if it's not null
+//        String envUrl = AppEnv.getFrontendUrl();
+//        if (envUrl != null) {
+//            allowedOrigins.add(envUrl);
+//        }
+//
+//        config.setAllowedOrigins(allowedOrigins);
+//        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        config.setAllowedHeaders(List.of("*", "Content-Type", "Authorization"));
+//        config.setAllowCredentials(true);
+//        config.setExposedHeaders(List.of("Set-Cookie"));
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", config);
+//        return source;
+//    }
 }
 

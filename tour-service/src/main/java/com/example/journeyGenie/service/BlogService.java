@@ -22,7 +22,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
 
 @Service
 public class BlogService {
@@ -48,7 +50,7 @@ public class BlogService {
 
             // 2) Tour + ownership check
             TourResponseDTO tour = tourService.getTourResponseFromId(tourId);
-            if (tour.getUser() == null || !email.equals(tour.getUser().getEmail())) {
+            if (!Objects.equals(tour.getUserId(), user.getId())) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to update this tour");
             }
 
