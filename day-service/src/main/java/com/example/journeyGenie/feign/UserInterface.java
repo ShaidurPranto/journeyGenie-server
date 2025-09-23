@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("USER-SERVICE")
+@FeignClient("AUTH-USER-SERVICE")
 public interface UserInterface {
 
     @GetMapping("/user/openfeign/id")

@@ -1,7 +1,6 @@
 package com.example.journeyGenie.feign;
 
 
-import com.example.journeyGenie.dto.ActivityResponseDTO;
 import com.example.journeyGenie.dto.PhotoResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
