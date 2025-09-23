@@ -16,6 +16,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "dayid", nullable = false)
     private Long dayId;
 
     private String description;

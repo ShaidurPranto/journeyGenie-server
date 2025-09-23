@@ -199,14 +199,18 @@ public class PhotoService {
     }
 
     public void createPhoto(PhotoResponseDTO photo) {
-        Photo newPhoto = new Photo();
-        newPhoto.setLink(photo.getLink());
-        if (photo.getDayId() != null) {
-            newPhoto.setDayId(photo.getDayId());
+        try{
+            Photo newPhoto = new Photo();
+            newPhoto.setLink(photo.getLink());
+            if (photo.getDayId() != null) {
+                newPhoto.setDayId(photo.getDayId());
+            }
+            newPhoto.setAiDescription(photo.getAiDescription());
+            newPhoto.setAnalyzedAt(photo.getAnalyzedAt());
+            newPhoto.setAnalysisTags(photo.getAnalysisTags());
+            photoRepository.save(newPhoto);
+        }catch (Exception e){
+            Debug.log("Error creating photo: " + e.getMessage());
         }
-        newPhoto.setAiDescription(photo.getAiDescription());
-        newPhoto.setAnalyzedAt(photo.getAnalyzedAt());
-        newPhoto.setAnalysisTags(photo.getAnalysisTags());
-        photoRepository.save(newPhoto);
     }
 }

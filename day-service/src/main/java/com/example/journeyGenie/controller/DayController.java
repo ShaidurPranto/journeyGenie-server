@@ -14,17 +14,17 @@ public class DayController {
     @Autowired
     private DayService dayService;
 
-    @GetMapping("/day/openfeign/{dayId}")
+    @GetMapping("/openfeign/{dayId}")
     DayResponseDTO getDayById(@PathVariable("dayId") Long dayId){
         return dayService.getDayById(dayId);
     }
 
-    @GetMapping("/day/openfeign/tour/{tourId}")
+    @GetMapping("/openfeign/tour/{tourId}")
     List<DayResponseDTO> getDaysOfTour(@PathVariable("tourId") Long tourId){
         return dayService.getDaysOfTour(tourId);
     }
 
-    @PostMapping("/day/openfeign/create")
+    @PostMapping("/openfeign/create")
     void createDay(@RequestBody DayResponseDTO day){
         dayService.createDayFromResponse(day);
     }

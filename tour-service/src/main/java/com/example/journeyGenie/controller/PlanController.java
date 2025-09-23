@@ -244,6 +244,7 @@ public class PlanController {
             }
 
             tour.setDays(days);
+            Debug.log("The tour to be saved:\n" + tour);
             return tourService.createTour(tour, request);
 
         } catch (Exception e) {

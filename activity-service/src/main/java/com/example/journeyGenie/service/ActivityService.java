@@ -10,6 +10,7 @@ import com.example.journeyGenie.feign.DayInterface;
 import com.example.journeyGenie.feign.TourInterface;
 import com.example.journeyGenie.feign.UserInterface;
 import com.example.journeyGenie.repository.ActivityRepository;
+import com.example.journeyGenie.util.Debug;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,12 +97,16 @@ public class ActivityService {
     }
 
     public void createActivity(ActivityResponseDTO activity) {
-        Activity newActivity = new Activity();
-        newActivity.setDescription(activity.getDescription());
-        newActivity.setStatus(activity.getStatus());
-        if (activity.getDayId() != null) {
-            newActivity.setDayId(activity.getDayId());
+        try{
+            Activity newActivity = new Activity();
+            newActivity.setDescription(activity.getDescription());
+            newActivity.setStatus(activity.getStatus());
+            if (activity.getDayId() != null) {
+                newActivity.setDayId(activity.getDayId());
+            }
+            activityRepository.save(newActivity);
+        }catch (Exception e){
+            Debug.log("Error creating activity: " + e.getMessage());
         }
-        activityRepository.save(newActivity);
     }
 }

@@ -21,6 +21,7 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "userid", nullable = false)
     private Long userId;
 
     private String title;

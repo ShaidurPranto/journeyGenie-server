@@ -20,6 +20,7 @@ public class Photo {
 
     private String link;
 
+    @Column(name = "dayid", nullable = false)
     private Long dayId;
 
     // New fields for AI analysis

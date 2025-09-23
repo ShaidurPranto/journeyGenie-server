@@ -25,5 +25,9 @@ public class OneTimeInitializer implements CommandLineRunner {
         // Alter blog column to TEXT if it's still varchar(255)
 //        em.createNativeQuery("ALTER TABLE tours ALTER COLUMN blog TYPE TEXT")
 //                .executeUpdate();
+
+        // Delete all rows from days table
+        em.createNativeQuery("TRUNCATE TABLE days RESTART IDENTITY CASCADE")
+                .executeUpdate();
     }
 }

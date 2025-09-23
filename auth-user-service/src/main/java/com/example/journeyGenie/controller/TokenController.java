@@ -74,22 +74,22 @@ public class TokenController {
         return tokenService.addTokensByUserId(userId, tokensToAdd);
     }
 
-    @GetMapping("/token/openfeign/tokenCosts/video")
+    @GetMapping("/openfeign/tokenCosts/video")
     int getVideoGenerationTokenCost(){
         return tokenService.getVideoGenerationTokenCost();
     }
 
-    @GetMapping("/token/openfeign/tokenCosts/tourPerDay")
+    @GetMapping("/openfeign/tokenCosts/tourPerDay")
     int getTourGenerationTokenCostPerDay(){
         return tokenService.getTourGenerationTokenCostPerDay();
     }
 
-    @GetMapping("/token/openfeign/tokenCosts/photoUpload")
+    @GetMapping("/openfeign/tokenCosts/photoUpload")
     int getPhotoUploadCost(){
         return tokenService.getPhotoUploadTokenCost();
     }
 
-    @GetMapping("/token/openfeign/tokenCosts/blog")
+    @GetMapping("/openfeign/tokenCosts/blog")
     int getBlogGenerationTokenCost(){
         return tokenService.getBlogGenerationTokenCost();
     }

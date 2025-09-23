@@ -6,6 +6,7 @@ import com.example.journeyGenie.entity.Tour;
 import com.example.journeyGenie.feign.DayInterface;
 import com.example.journeyGenie.feign.UserInterface;
 import com.example.journeyGenie.repository.TourRepository;
+import com.example.journeyGenie.util.Debug;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,22 +91,30 @@ public class TourService {
     }
 
     public void saveTour(TourResponseDTO tour) {
-        // save tour in database
-        Tour newTour = new Tour();
-        newTour.setUserId(tour.getUserId());
-        newTour.setTitle(tour.getTitle());
-        newTour.setStartDate(tour.getStartDate());
-        newTour.setEndDate(tour.getEndDate());
-        newTour.setStartLocation(tour.getStartLocation());
-        newTour.setDestination(tour.getDestination());
-        newTour.setBudget(tour.getBudget());
-        newTour.setVideo(tour.getVideo());
-        newTour.setBlog(tour.getBlog());
-        Tour savedTour = tourRepository.save(newTour);
-        // save days of the tours using day interface
-        for (DayResponseDTO day : tour.getDays()) {
-            day.setTourId(tour.getId());
-            dayInterface.createDay(day);
+        try{
+            // save days of the tours using day interface
+            for (DayResponseDTO day : tour.getDays()) {
+                day.setTourId(tour.getId());
+                dayInterface.createDay(day);
+            }
+            Debug.log("Days saved successfully for tour id: " + tour.getId());
+
+            // save tour in database
+            Tour newTour = new Tour();
+            newTour.setUserId(tour.getUserId());
+            newTour.setTitle(tour.getTitle());
+            newTour.setStartDate(tour.getStartDate());
+            newTour.setEndDate(tour.getEndDate());
+            newTour.setStartLocation(tour.getStartLocation());
+            newTour.setDestination(tour.getDestination());
+            newTour.setBudget(tour.getBudget());
+            newTour.setVideo(tour.getVideo());
+            newTour.setBlog(tour.getBlog());
+            Debug.log("Saving new tour: " + newTour);
+            Tour savedTour = tourRepository.save(newTour);
+            Debug.log("Tour saved successfully with id: " + savedTour.getId());
+        }catch (Exception e) {
+            Debug.log("❌ Failed to save days, tour not saved. Reason: " + e.getMessage());
         }
     }
 

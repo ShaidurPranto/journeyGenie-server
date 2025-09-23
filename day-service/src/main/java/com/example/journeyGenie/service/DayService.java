@@ -7,6 +7,7 @@ import com.example.journeyGenie.feign.ActivityInterface;
 import com.example.journeyGenie.feign.PhotoInterface;
 import com.example.journeyGenie.feign.TourInterface;
 import com.example.journeyGenie.repository.DayRepository;
+import com.example.journeyGenie.util.Debug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,16 +55,29 @@ public class DayService {
     }
 
     public void createDayFromResponse(DayResponseDTO day) {
-        Day newDay = new Day();
-        newDay.setId(day.getId());
-        newDay.setTourId(day.getTourId());
-        newDay.setDate(day.getDate());
-        dayRepository.save(newDay);
-        if (day.getActivities() != null) {
-            day.getActivities().forEach(activityInterface::createActivity);
-        }
-        if (day.getPhotos() != null) {
-            day.getPhotos().forEach(photoInterface::createPhoto);
+        try{
+            // creating activities
+            if (day.getActivities() != null) {
+                day.getActivities().forEach(activityInterface::createActivity);
+            }
+            Debug.log("Activities created for day id: " + day.getId());
+
+            // creating photos
+            if (day.getPhotos() != null) {
+                day.getPhotos().forEach(photoInterface::createPhoto);
+            }
+            Debug.log("Photos created for day id: " + day.getId());
+
+            // creating day
+            Day newDay = new Day();
+            newDay.setId(day.getId());
+            newDay.setTourId(day.getTourId());
+            newDay.setDate(day.getDate());
+            Debug.log("Creating day: " + newDay);
+            dayRepository.save(newDay);
+            Debug.log("Day created successfully with id: " + newDay.getId());
+        }catch (Exception e){
+            Debug.log("❌ Failed to create day. Reason: " + e.getMessage());
         }
     }
 }
