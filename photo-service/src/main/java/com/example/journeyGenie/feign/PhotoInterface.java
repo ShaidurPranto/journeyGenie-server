@@ -3,10 +3,7 @@ package com.example.journeyGenie.feign;
 
 import com.example.journeyGenie.dto.PhotoResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,4 +17,7 @@ public interface PhotoInterface {
 
     @PostMapping("/photo/openfeign/create")
     void createPhoto(@RequestBody PhotoResponseDTO photo);
+
+    @DeleteMapping("/photo/openfeign/delete/day/{dayId}")
+    void deletePhotosByDayId(@PathVariable("dayId") Long dayId);
 }

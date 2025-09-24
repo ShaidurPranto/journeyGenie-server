@@ -91,14 +91,8 @@ public class TourService {
     }
 
     public void saveTour(TourResponseDTO tour) {
+        Tour savedTour = null;
         try{
-            // save days of the tours using day interface
-            for (DayResponseDTO day : tour.getDays()) {
-                day.setTourId(tour.getId());
-                dayInterface.createDay(day);
-            }
-            Debug.log("Days saved successfully for tour id: " + tour.getId());
-
             // save tour in database
             Tour newTour = new Tour();
             newTour.setUserId(tour.getUserId());
@@ -111,10 +105,31 @@ public class TourService {
             newTour.setVideo(tour.getVideo());
             newTour.setBlog(tour.getBlog());
             Debug.log("Saving new tour: " + newTour);
-            Tour savedTour = tourRepository.save(newTour);
+            savedTour = tourRepository.save(newTour);
             Debug.log("Tour saved successfully with id: " + savedTour.getId());
+
+            // save days of the tours using day interface
+            for (DayResponseDTO day : tour.getDays()) {
+                day.setTourId(savedTour.getId());
+                dayInterface.createDay(day);
+            }
+            Debug.log("Days saved successfully for tour id: " + savedTour.getId());
         }catch (Exception e) {
-            Debug.log("❌ Failed to save days, tour not saved. Reason: " + e.getMessage());
+            Debug.log("❌ Failed to save tour. Reason: " + e.getMessage());
+
+            if(savedTour != null){
+                // rollback tour
+                Debug.log("Rolling back tour with id: " + savedTour.getId());
+                tourRepository.deleteById(savedTour.getId());
+                Debug.log("Rolled back tour with id: " + savedTour.getId());
+
+                // rollback days
+                Debug.log("Rolling back days of tour with id: " + savedTour.getId());
+                dayInterface.deleteDaysByTourId(savedTour.getId());
+                Debug.log("Rolled back days of tour with id: " + savedTour.getId());
+            }else{
+                Debug.log("No tour to rollback");
+            }
         }
     }
 

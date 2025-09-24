@@ -76,4 +76,9 @@ public class PhotoController {
     void createPhoto(@RequestBody PhotoResponseDTO photo){
         photoService.createPhoto(photo);
     }
+
+    @DeleteMapping("/photo/openfeign/delete/day/{dayId}")
+    void deletePhotosByDayId(@PathVariable("dayId") Long dayId){
+        photoService.deletePhotosByDayId(dayId);
+    }
 }

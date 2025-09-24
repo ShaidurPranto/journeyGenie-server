@@ -213,4 +213,9 @@ public class PhotoService {
             Debug.log("Error creating photo: " + e.getMessage());
         }
     }
+
+    public void deletePhotosByDayId(Long dayId) {
+        List<Photo> photos = photoRepository.findByDayId(dayId);
+        photoRepository.deleteAll(photos);
+    }
 }

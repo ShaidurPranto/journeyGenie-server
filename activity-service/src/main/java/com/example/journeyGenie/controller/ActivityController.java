@@ -49,4 +49,9 @@ public class ActivityController {
     void createActivity(@RequestBody ActivityResponseDTO activity){
         activityService.createActivity(activity);
     }
+
+    @DeleteMapping("/activity/openfeign/delete/day/{dayId}")
+    void deleteActivitiesByDayId(@PathVariable("dayId") Long dayId){
+        activityService.deleteActivitiesByDayId(dayId);
+    }
 }

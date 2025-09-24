@@ -55,29 +55,70 @@ public class DayService {
     }
 
     public void createDayFromResponse(DayResponseDTO day) {
+        Day createdDay = null;
         try{
-            // creating activities
-            if (day.getActivities() != null) {
-                day.getActivities().forEach(activityInterface::createActivity);
-            }
-            Debug.log("Activities created for day id: " + day.getId());
-
-            // creating photos
-            if (day.getPhotos() != null) {
-                day.getPhotos().forEach(photoInterface::createPhoto);
-            }
-            Debug.log("Photos created for day id: " + day.getId());
-
             // creating day
             Day newDay = new Day();
             newDay.setId(day.getId());
             newDay.setTourId(day.getTourId());
             newDay.setDate(day.getDate());
             Debug.log("Creating day: " + newDay);
-            dayRepository.save(newDay);
-            Debug.log("Day created successfully with id: " + newDay.getId());
+            createdDay = dayRepository.save(newDay);
+            Debug.log("Day created successfully with id: " + createdDay.getId());
+
+            // creating activities
+            if (day.getActivities() != null) {
+                Day finalCreatedDay = createdDay;
+                day.getActivities().forEach(activity -> activity.setDayId(finalCreatedDay.getId()));
+                day.getActivities().forEach(activityInterface::createActivity);
+            }
+            Debug.log("Activities created for day id: " + createdDay.getId());
+
+            // creating photos
+            if (day.getPhotos() != null) {
+                Day finalCreatedDay1 = createdDay;
+                day.getPhotos().forEach(photo -> photo.setDayId(finalCreatedDay1.getId()));
+                day.getPhotos().forEach(photoInterface::createPhoto);
+            }
+            Debug.log("Photos created for day id: " + createdDay.getId());
         }catch (Exception e){
             Debug.log("❌ Failed to create day. Reason: " + e.getMessage());
+
+            if(createdDay != null){
+                // rollback day
+                Debug.log("Rolling back day with id: " + createdDay.getId());
+                dayRepository.deleteById(createdDay.getId());
+                Debug.log("Rolled back day with id: " + createdDay.getId());
+
+                // rollback activities
+                Debug.log("Rolling back activities of day with id: " + createdDay.getId());
+                activityInterface.deleteActivitiesByDayId(createdDay.getId());
+                Debug.log("Rolled back activities of day with id: " + createdDay.getId());
+
+                // rollback photos
+                Debug.log("Rolling back photos of day with id: " + createdDay.getId());
+                photoInterface.deletePhotosByDayId(createdDay.getId());
+                Debug.log("Rolled back photos of day with id: " + createdDay.getId());
+            }else {
+                Debug.log("No day to rollback");
+            }
+        }
+    }
+
+    public void deleteDaysByTourId(Long tourId) {
+        List<Day> days = dayRepository.findByTourId(tourId);
+        for (Day day : days) {
+            // delete activities of the day
+            activityInterface.deleteActivitiesByDayId(day.getId());
+            Debug.log("Deleted activities of day id: " + day.getId());
+
+            // delete photos of the day
+            photoInterface.deletePhotosByDayId(day.getId());
+            Debug.log("Deleted photos of day id: " + day.getId());
+
+            // delete the day
+            dayRepository.deleteById(day.getId());
+            Debug.log("Deleted day id: " + day.getId());
         }
     }
 }

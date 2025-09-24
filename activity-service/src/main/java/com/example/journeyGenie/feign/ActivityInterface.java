@@ -2,10 +2,7 @@ package com.example.journeyGenie.feign;
 
 import com.example.journeyGenie.dto.ActivityResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,4 +16,7 @@ public interface ActivityInterface {
 
     @PostMapping("/activity/openfeign/create")
     void createActivity(@RequestBody ActivityResponseDTO activity);
+
+    @DeleteMapping("/activity/openfeign/delete/day/{dayId}")
+    void deleteActivitiesByDayId(@PathVariable("dayId") Long dayId);
 }

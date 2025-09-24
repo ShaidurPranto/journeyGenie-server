@@ -28,4 +28,9 @@ public class DayController {
     void createDay(@RequestBody DayResponseDTO day){
         dayService.createDayFromResponse(day);
     }
+
+    @DeleteMapping("/day/openfeign/delete/tour/{tourId}")
+    void deleteDaysByTourId(@PathVariable("tourId") Long tourId){
+        dayService.deleteDaysByTourId(tourId);
+    }
 }

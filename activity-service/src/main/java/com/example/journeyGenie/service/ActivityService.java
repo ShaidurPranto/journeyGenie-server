@@ -101,6 +101,9 @@ public class ActivityService {
             Activity newActivity = new Activity();
             newActivity.setDescription(activity.getDescription());
             newActivity.setStatus(activity.getStatus());
+            if(newActivity.getStatus() == null){
+                newActivity.setStatus("pending");
+            }
             if (activity.getDayId() != null) {
                 newActivity.setDayId(activity.getDayId());
             }
@@ -108,5 +111,10 @@ public class ActivityService {
         }catch (Exception e){
             Debug.log("Error creating activity: " + e.getMessage());
         }
+    }
+
+    public void deleteActivitiesByDayId(Long dayId) {
+        List<Activity> activities = activityRepository.findByDayId(dayId);
+        activityRepository.deleteAll(activities);
     }
 }
