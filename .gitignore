@@ -1,0 +1,61 @@
+# Compiled output
+**/target/
+**/build/
+out/
+
+# Maven wrapper downloads (keep wrapper files, ignore downloaded archives if used)
+.mvn/wrapper/*.jar
+
+# IDE/editor files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment and secrets
+.env
+.env.*
+*.local
+*.secret
+*.pem
+
+# Docker / local runtime artifacts
+*.pid
+*.sock
+postgres-data/
+redis-data/
+
+# Java / Spring generated files
+**/generated-sources/
+**/generated-test-sources/
+**/maven-status/
+**/.classpath
+**/.project
+**/.settings/
+
+# Node / frontend caches (if any are added later)
+node_modules/
+
+# Test reports / coverage
+coverage/
+*.exec
+
+# Temporary files
+tmp/
+temp/
+
+# Optional: keep the main project scripts tracked
+# but ignore local runtime state files if they are generated
+# e.g. local_run_state.txt
